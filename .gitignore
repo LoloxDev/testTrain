@@ -1,0 +1,50 @@
+# Ignorer les dépendances Node.js
+node_modules/
+npm-debug.log*
+yarn-error.log
+
+# Ignorer les dépendances Composer (PHP)
+vendor/
+composer.lock
+
+# Ignorer les fichiers environnementaux et sensibles
+.env
+.env.local
+.env.*.local
+.DS_Store
+
+# Ignorer les fichiers de logs et temporaires
+*.log
+logs/
+tmp/
+storage/
+.cache/
+.idea/
+.vscode/
+nbproject/
+
+# Ignorer Cypress outputs
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# Ignorer les fichiers de configuration spécifiques aux éditeurs
+*.sublime-workspace
+*.swp
+*.swo
+*.bak
+*.orig
+Thumbs.db
+
+# Ignorer les fichiers générés par PHPUnit
+phpunit.xml
+phpunit.xml.dist
+
+# Ignorer les fichiers build et artefacts
+dist/
+build/
+coverage/
+
+# Ignorer les fichiers de debug
+debug.log
+error_log
