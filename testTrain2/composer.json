@@ -1,0 +1,21 @@
+{
+  "name": "loris/testtrain",
+  "type": "php-unit",
+  "require": {
+    "phpunit/phpunit": "^10.5"
+  },
+  "scripts": {
+    "test": "phpunit --bootstrap vendor/autoload.php tests"
+  },
+  "autoload": {
+    "psr-4": {
+      "Loris\\testTrain\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "loris",
+      "email": "loris_labarre@outlook.fr"
+    }
+  ]
+}

@@ -11,46 +11,35 @@ class TaskManager
         $this->tasks = [];
     }
 
-    /**
-     * Ajoute une tâche au gestionnaire
-     */
-    public function addTask(string $task)
+    // Ajouter un paramètre $deadline
+    public function addTask(string $task, string $deadline = null)
     {
-        $this->tasks[] = $task;
+        $this->tasks[] = [
+            'name' => $task,
+            'deadline' => $deadline
+        ];
     }
 
-    /**
-     * Supprime une tâche par son index
-     * @throws OutOfBoundsException
-     */
     public function removeTask(int $index)
     {
         if (!isset($this->tasks[$index])) {
             throw new \OutOfBoundsException("Index de tâche invalide: $index");
         }
-
         unset($this->tasks[$index]);
-        $this->tasks = array_values($this->tasks); // Réindexe le tableau
+        $this->tasks = array_values($this->tasks);
     }
 
-    /**
-     * Récupère toutes les tâches
-     */
+    // getTasks() renvoie maintenant un tableau de tableaux associatifs
     public function getTasks(): array
     {
         return $this->tasks;
     }
 
-    /**
-     * Récupère une tâche spécifique
-     * @throws OutOfBoundsException
-     */
-    public function getTask(int $index): string
+    public function getTask(int $index): array
     {
         if (!isset($this->tasks[$index])) {
             throw new \OutOfBoundsException("Index de tâche invalide: $index");
         }
-
         return $this->tasks[$index];
     }
 }

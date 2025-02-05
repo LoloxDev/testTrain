@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Gestion de tâches</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .task-container {
+            margin-top: 20px;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .task-info {
+            max-width: 80%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .task-deadline {
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<h1>Gestion de tâches</h1>
+
+<!-- Champ pour le nom de la tâche -->
+<input
+        id="taskInput"
+        placeholder="Ajouter une tâche"
+        style="width: 200px;"
+        type="text"
+>
+
+<!-- Champ pour la date d’échéance -->
+<input
+        id="deadlineInput"
+        placeholder="Échéance"
+        type="date"
+>
+
+<button onclick="addTask()">Ajouter</button>
+
+<div class="task-container" id="taskList"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', loadTasks);
+
+    /**
+     * Ajoute une tâche au localStorage et à l'affichage.
+     */
+    function addTask() {
+        const taskInput = document.getElementById('taskInput');
+        const deadlineInput = document.getElementById('deadlineInput');
+
+        const taskText = taskInput.value.trim();
+        const deadline = deadlineInput.value; // Peut être vide si l’utilisateur ne remplit pas
+
+        if (taskText === '') return;
+
+        // Crée un objet représentant la tâche
+        const newTask = {
+            name: taskText,
+            deadline: deadline
+        };
+
+        // Ajout dans l'affichage
+        addTaskToDOM(newTask);
+
+        // Sauvegarde
+        saveTasks();
+
+        // Réinitialise les champs
+        taskInput.value = '';
+        deadlineInput.value = '';
+    }
+
+    /**
+     * Ajoute une tâche au DOM (affichage)
+     */
+    function addTaskToDOM(taskObj) {
+        const taskList = document.getElementById('taskList');
+        const taskItem = document.createElement('div');
+        taskItem.className = 'task-item';
+
+        // Générer le HTML d'affichage
+        // Par exemple : <span class="task-info">Tâche X <span class="task-deadline">Échéance Y</span></span>
+        // puis le bouton "Supprimer"
+        taskItem.innerHTML = `
+        <div class="task-info">
+          <span>${taskObj.name}</span>
+          ${taskObj.deadline ? `<span class="task-deadline">Échéance : ${taskObj.deadline}</span>` : ''}
+        </div>
+        <button onclick="removeTask(this)">Supprimer</button>
+      `;
+
+        taskList.appendChild(taskItem);
+    }
+
+    /**
+     * Supprime une tâche (dans le DOM), puis enregistre l'état à jour.
+     */
+    function removeTask(button) {
+        button.parentElement.remove();
+        saveTasks();
+    }
+
+    /**
+     * Sauvegarde toutes les tâches dans le localStorage,
+     * en parcourant le DOM pour reconstruire la liste.
+     */
+    function saveTasks() {
+        const taskItems = document.querySelectorAll('.task-item');
+        const tasks = [];
+
+        taskItems.forEach(item => {
+            const nameEl = item.querySelector('.task-info span:first-child');  // le premier span dans .task-info
+            const deadlineEl = item.querySelector('.task-deadline');
+
+            const taskObj = {
+                name: nameEl ? nameEl.textContent : '',
+                deadline: deadlineEl
+                    ? deadlineEl.textContent.replace('Échéance : ', '')
+                    : ''
+            };
+            tasks.push(taskObj);
+        });
+
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    /**
+     * Charge la liste des tâches depuis le localStorage et les affiche.
+     */
+    function loadTasks() {
+        const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        const taskList = document.getElementById('taskList');
+
+        storedTasks.forEach(taskObj => {
+            addTaskToDOM(taskObj);
+        });
+    }
+</script>
+</body>
+</html>

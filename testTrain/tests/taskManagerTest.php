@@ -9,11 +9,12 @@ class TaskManagerTest extends TestCase
     public function testAddTask()
     {
         $tm = new TaskManager();
-        $tm->addTask("Tâche 1");
+        $tm->addTask("Tâche 1", "2025-12-01");
 
         $tasks = $tm->getTasks();
-        $this->assertCount(1, $tasks, "Le nombre de tâches doit être 1 après ajout.");
-        $this->assertEquals("Tâche 1", $tasks[0], "La tâche ajoutée doit correspondre.");
+        $this->assertCount(1, $tasks);
+        $this->assertEquals("Tâche 1", $tasks[0]['name']);
+        $this->assertEquals("2025-12-01", $tasks[0]['deadline']);
     }
 
     public function testRemoveTask()
@@ -25,7 +26,7 @@ class TaskManagerTest extends TestCase
         $tm->removeTask(0);
         $tasks = $tm->getTasks();
         $this->assertCount(1, $tasks, "Après suppression, il ne doit rester qu'une tâche.");
-        $this->assertEquals("Tâche 2", $tasks[0], "La tâche restante doit être 'Tâche 2'.");
+        $this->assertEquals("Tâche 2", $tasks[0]['name'], "La tâche restante doit être 'Tâche 2'.");
     }
 
     public function testGetTasks()
@@ -40,10 +41,11 @@ class TaskManagerTest extends TestCase
     public function testGetTask()
     {
         $tm = new TaskManager();
-        $tm->addTask("Tâche 1");
+        $tm->addTask("Tâche 1", "2025-12-01");
 
         $task = $tm->getTask(0);
-        $this->assertEquals("Tâche 1", $task, "La tâche récupérée doit correspondre à celle ajoutée.");
+        $this->assertEquals("Tâche 1", $task['name']);
+        $this->assertEquals("2025-12-01", $task['deadline']);
     }
 
     public function testRemoveInvalidIndexThrowsException()
@@ -73,7 +75,7 @@ class TaskManagerTest extends TestCase
         $tasks = $tm->getTasks();
 
         $this->assertCount(2, $tasks, "Il doit rester 2 tâches après suppression.");
-        $this->assertEquals("Tâche 1", $tasks[0], "La première tâche doit être 'Tâche 1'.");
-        $this->assertEquals("Tâche 3", $tasks[1], "La deuxième tâche doit être 'Tâche 3' (réindexée).");
+        $this->assertEquals("Tâche 1", $tasks[0]['name'], "La première tâche doit être 'Tâche 1'.");
+        $this->assertEquals("Tâche 3", $tasks[1]['name'], "La deuxième tâche doit être 'Tâche 3' (réindexée).");
     }
 }
