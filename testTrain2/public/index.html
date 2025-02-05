@@ -2,56 +2,25 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Gestion de tâches</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-
-        .task-container {
-            margin-top: 20px;
-        }
-
-        .task-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px;
-            border: 1px solid #ccc;
-            margin: 5px 0;
-        }
-
-        button {
-            cursor: pointer;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des utilisateurs</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Gestion de tâches</h1>
-<input id="taskInput" placeholder="Ajouter une tâche" type="text">
-<button onclick="addTask()">Ajouter</button>
 
-<div class="task-container" id="taskList"></div>
+    <h1>Gestion des utilisateurs</h1>
 
-<script>
-    function addTask() {
-        const input = document.getElementById('taskInput');
-        const taskText = input.value.trim();
-        if (taskText === '') return;
+    <form id="userForm">
+        <input type="hidden" id="userId">
+        <input type="text" id="name" placeholder="Nom" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <button type="submit">Ajouter</button>
+    </form>
 
-        const taskList = document.getElementById('taskList');
-        const taskItem = document.createElement('div');
-        taskItem.className = 'task-item';
-        taskItem.innerHTML = `<span>` + taskText + `</span> <button onclick="removeTask(this)">Supprimer</button>`;
+    <h2>Liste des utilisateurs</h2>
+    <ul id="userList"></ul>
 
-        taskList.appendChild(taskItem);
-        input.value = '';
-    }
+    <script src="script.js"></script>
 
-    function removeTask(button) {
-        button.parentElement.remove();
-    }
-</script>
 </body>
 </html>
