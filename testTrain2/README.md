@@ -10,6 +10,7 @@ des tests **unitaires**, **E2E (end-to-end)** et une **simulation de charge**.
 Les fonctionnalités principales de l'application ont été testées avec PHPUnit, après éxécution des tests, je me suis
 rendu compte d'un problème au niveau du code source : ![img.png](img.png)
 J'ai donc mit à jour les méthodes updateUset et removeUser dans le fichier UserManager.php
+Après modification, voila le résultat des tests : ![img_1.png](img_1.png)
 
 ---
 

@@ -29,6 +29,11 @@ class UserManager
     {
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
+
+        // Si aucune ligne n'est affectée, c'est que l'utilisateur n'existe pas
+        if ($stmt->rowCount() === 0) {
+            throw new Exception("Utilisateur introuvable.");
+        }
     }
 
     public function getUsers(): array
@@ -50,7 +55,13 @@ class UserManager
     {
         $stmt = $this->db->prepare("UPDATE users SET name = :name, email = :email WHERE id = :id");
         $stmt->execute(['id' => $id, 'name' => $name, 'email' => $email]);
+
+        // Si aucune ligne n'est affectée, c'est que l'utilisateur n'existe pas
+        if ($stmt->rowCount() === 0) {
+            throw new Exception("Utilisateur introuvable.");
+        }
     }
+
 }
 
 ?>
