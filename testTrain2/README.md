@@ -42,12 +42,15 @@ dans le DOM, bien que l'API retournait un statut `200`.
 
 ## ✅ Exercice 3 : Ajout d'une Échéance + Tests de Non-Régression
 
-J'ai **ajouté la fonctionnalité "échéance" aux tâches**, ce qui a nécessité une modification des tests.  
+J'ai **ajouté la fonctionnalité une nouvelle colonne à la table ( rôle )*, ce qui a nécessité une modification des
+tests.  
 📌 **Après l'ajout de cette nouvelle fonctionnalité, j'ai relancé la suite de tests pour vérifier que les fonctionnalités
 existantes ne sont pas impactées.**
 
 📌 **Résultats des tests avec l'échéance intégrée :**  
-![image](https://github.com/user-attachments/assets/e1af7016-377f-4a14-83fd-859d07408938)
+![img_3.png](img_3.png)
+![img_4.png](img_4.png)
+
 
 ---
 
@@ -60,8 +63,8 @@ du serveur** sous forte charge.
 - 🔹 **Analyse des résultats :** Temps de réponse moyen, erreurs, débit (requests/sec).
 
 📌 **Rapport de simulation JMeter :**  
-![image](https://github.com/user-attachments/assets/eb73abc2-f3f2-4ace-96bc-359785e25c61)  
-![image](https://github.com/user-attachments/assets/91e72b68-faca-4675-a6c9-39dbde87aa44)
+![img_5.png](img_5.png)![image](https://github.com/user-attachments/assets/eb73abc2-f3f2-4ace-96bc-359785e25c61)  
+![img_6.png](img_6.png)![image](https://github.com/user-attachments/assets/91e72b68-faca-4675-a6c9-39dbde87aa44)
 
 ---
 

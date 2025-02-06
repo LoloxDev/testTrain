@@ -2,19 +2,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const userForm = document.getElementById("userForm");
     const userList = document.getElementById("userList");
     const userIdField = document.getElementById("userId");
+    const roleField = document.getElementById("role"); // Nouveau champ
 
     function fetchUsers() {
-        // Ajout d'un paramètre unique pour éviter le cache et garantir une réponse à jour
         const url = "../src/api.php?cb=" + Date.now();
         fetch(url, {cache: "no-store"})
             .then(response => response.json())
             .then(users => {
-                console.log('Liste des utilisateurs récupérés :', users); // Debug
                 userList.innerHTML = "";
                 users.forEach(user => {
                     const li = document.createElement("li");
-                    li.innerHTML = `${user.name} (${user.email})
-                        <button onclick="editUser(${user.id}, '${user.name}', '${user.email}')">✏️</button>
+                    li.innerHTML = `${user.name} (${user.email}) - [${user.role}]
+                        <button onclick="editUser(${user.id}, '${user.name}', '${user.email}', '${user.role}')">✏️</button>
                         <button onclick="deleteUser(${user.id})">❌</button>`;
                     userList.appendChild(li);
                 });
@@ -27,15 +26,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
         const userId = userIdField.value;
+        const role = roleField.value; // Récupération du champ role
 
-        // Vérifier qu'on a bien des valeurs
         if (!name || !email) {
             alert("Veuillez renseigner un nom et un email.");
             return;
         }
 
         let method = "POST";
-        let bodyParams = {name, email};
+        let bodyParams = {name, email, role};
 
         if (userId) {
             method = "PUT";
@@ -56,18 +55,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 return resp.json();
             })
             .then(responseData => {
-                console.log("Réponse après soumission du formulaire :", responseData);
                 userForm.reset();
                 userIdField.value = "";
-                // On rafraîchit la liste
+                console.log("Réponse serveur :", responseData);
                 fetchUsers();
             })
             .catch(err => alert(err.message));
     });
 
-    window.editUser = function (id, name, email) {
+    // On ajoute 'role' en 4e paramètre
+    window.editUser = function (id, name, email, role) {
         document.getElementById("name").value = name;
         document.getElementById("email").value = email;
+        document.getElementById("role").value = role;
         userIdField.value = id;
     };
 
@@ -88,6 +88,5 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(err => alert(err.message));
     };
 
-    // Premier chargement de la liste
     fetchUsers();
 });
