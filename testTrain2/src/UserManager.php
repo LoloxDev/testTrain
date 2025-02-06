@@ -6,7 +6,7 @@ class UserManager
 
     public function __construct()
     {
-        $dsn = "mysql:host=localhost;dbname=testTrain;charset=utf8";
+        $dsn = "mysql:host=localhost;dbname=testtrain;charset=utf8";
         $username = "root"; // Modifier si besoin
         $password = ""; // Modifier si besoin
         $this->db = new PDO($dsn, $username, $password, [

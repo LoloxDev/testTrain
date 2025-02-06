@@ -23,8 +23,20 @@ Les tests **End-to-End (E2E)** ont été réalisés avec Cypress afin de **simul
 3. 🔹 Vérification de son affichage
 4. 🔹 Suppression de la tâche et vérification de sa disparition
 
+### 🚧 Complications rencontrées
+
+Lors du test de suppression d'une tâche, Cypress échouait à vérifier sa disparition. L'élément supprimé restait visible
+dans le DOM, bien que l'API retournait un statut `200`.
+
+### 🔧 Modifications apportées
+
+- Ajout d'une requête `GET` après suppression pour vérifier que l'API ne retourne plus la tâche.
+- Ajout d'un `cy.reload()` pour forcer l'actualisation de l'affichage.
+- Utilisation de `cy.request()` pour valider directement sur l’API que l’utilisateur est effectivement supprimé dans la
+  base.
+
 📌 **Résultats des tests Cypress :**  
-![image](https://github.com/user-attachments/assets/3432c6b3-3fbf-4cb2-8020-f00d58532a73)
+![img_2.png](img_2.png)
 
 ---
 

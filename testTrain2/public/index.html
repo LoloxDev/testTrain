@@ -2,25 +2,23 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Gestion des utilisateurs</title>
-    <link rel="stylesheet" href="style.css">
+    <link href="style.css" rel="stylesheet">
 </head>
 <body>
+<h1>Gestion des utilisateurs</h1>
 
-    <h1>Gestion des utilisateurs</h1>
+<form id="userForm">
+    <input id="userId" type="hidden">
+    <input id="name" placeholder="Nom" required type="text">
+    <input id="email" placeholder="Email" required type="email">
+    <button type="submit">Ajouter</button>
+</form>
 
-    <form id="userForm">
-        <input type="hidden" id="userId">
-        <input type="text" id="name" placeholder="Nom" required>
-        <input type="email" id="email" placeholder="Email" required>
-        <button type="submit">Ajouter</button>
-    </form>
+<h2>Liste des utilisateurs</h2>
+<ul id="userList"></ul>
 
-    <h2>Liste des utilisateurs</h2>
-    <ul id="userList"></ul>
-
-    <script src="script.js"></script>
-
+<script src="script.js"></script>
 </body>
 </html>

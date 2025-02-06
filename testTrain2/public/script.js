@@ -4,9 +4,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const userIdField = document.getElementById("userId");
 
     function fetchUsers() {
-        fetch("api.php")
+        // Ajout d'un paramètre unique pour éviter le cache et garantir une réponse à jour
+        const url = "../src/api.php?cb=" + Date.now();
+        fetch(url, {cache: "no-store"})
             .then(response => response.json())
             .then(users => {
+                console.log('Liste des utilisateurs récupérés :', users); // Debug
                 userList.innerHTML = "";
                 users.forEach(user => {
                     const li = document.createElement("li");
@@ -15,7 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         <button onclick="deleteUser(${user.id})">❌</button>`;
                     userList.appendChild(li);
                 });
-            });
+            })
+            .catch(err => console.error('Erreur lors de la récupération des utilisateurs :', err));
     }
 
     userForm.addEventListener("submit", function (e) {
@@ -24,26 +28,41 @@ document.addEventListener("DOMContentLoaded", function () {
         const email = document.getElementById("email").value;
         const userId = userIdField.value;
 
+        // Vérifier qu'on a bien des valeurs
+        if (!name || !email) {
+            alert("Veuillez renseigner un nom et un email.");
+            return;
+        }
+
+        let method = "POST";
+        let bodyParams = {name, email};
+
         if (userId) {
-            fetch("api.php", {
-                method: "PUT",
-                body: new URLSearchParams({ id: userId, name, email }),
-                headers: { "Content-Type": "application/x-www-form-urlencoded" }
-            }).then(() => {
-                fetchUsers();
+            method = "PUT";
+            bodyParams.id = userId;
+        }
+
+        fetch("../src/api.php", {
+            method: method,
+            body: new URLSearchParams(bodyParams),
+            headers: {"Content-Type": "application/x-www-form-urlencoded"}
+        })
+            .then(resp => {
+                if (!resp.ok) {
+                    return resp.json().then(data => {
+                        throw new Error(data.error || "Une erreur est survenue.");
+                    });
+                }
+                return resp.json();
+            })
+            .then(responseData => {
+                console.log("Réponse après soumission du formulaire :", responseData);
                 userForm.reset();
                 userIdField.value = "";
-            });
-        } else {
-            fetch("api.php", {
-                method: "POST",
-                body: new URLSearchParams({ name, email }),
-                headers: { "Content-Type": "application/x-www-form-urlencoded" }
-            }).then(() => {
+                // On rafraîchit la liste
                 fetchUsers();
-                userForm.reset();
-            });
-        }
+            })
+            .catch(err => alert(err.message));
     });
 
     window.editUser = function (id, name, email) {
@@ -53,9 +72,22 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     window.deleteUser = function (id) {
-        fetch(`api.php?id=${id}`, { method: "DELETE" })
-            .then(() => fetchUsers());
+        fetch(`../src/api.php?id=${id}`, {method: "DELETE"})
+            .then(resp => {
+                if (!resp.ok) {
+                    return resp.json().then(data => {
+                        throw new Error(data.error || "Erreur pendant la suppression.");
+                    });
+                }
+                return resp.json();
+            })
+            .then(responseData => {
+                console.log("Réponse après suppression :", responseData);
+                fetchUsers();
+            })
+            .catch(err => alert(err.message));
     };
 
+    // Premier chargement de la liste
     fetchUsers();
 });
